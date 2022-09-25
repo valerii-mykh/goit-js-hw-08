@@ -42,3 +42,38 @@ function onImageClick(evt) {
 function blockStandartAction(evt) {
   evt.preventDefault();
 }
+
+
+player.on('timeupdate', function(data) {
+  console.log(data.seconds)
+localstorage.setItem()
+});
+player.setCurrentTime(30.456)
+
+
+
+
+
+
+
+import Player from '@vimeo/player';
+
+
+// import VimeoPlayer from '@vimeo/player';
+import throttle from "lodash.throttle";
+
+
+const playerRef = document.querySelector('#vimeo-player');
+const player = new Player(playerRef);
+const PLAY_TIME_KEY = "videoplayer-current-time";
+function savePlayTime(data) {
+localStorage.save(PLAY_TIME_KEY, Math.floor(data.seconds));
+ }
+
+ player.on('timeupdate', throttle(savePlayTime, THROTTLE_DELAY));
+
+ let loadedTime = localStorage.getItem(PLAY_TIME_KEY);
+ if (loadedTime) {
+    player.setCurrentTime(loadedTime);
+ }
+ initPage();
